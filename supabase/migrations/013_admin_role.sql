@@ -17,6 +17,14 @@
 
 alter table public.profiles add column if not exists is_admin boolean not null default false;
 
+-- The private schema is created here, first, before anything below
+-- references it (protect_is_admin() and is_admin() both live in it) -
+-- referencing a schema-qualified name before the schema exists fails with
+-- "schema does not exist", the same class of ordering bug fixed in
+-- 007_optional_tables.sql for shared_portfolios/portfolio_members.
+create schema if not exists private;
+grant usage on schema private to authenticated;
+
 -- ----------------------------------------------------------------------------
 -- Close a real privilege-escalation gap before it can be used: the existing
 -- "update own profile" policy (003_profiles_platforms_deals.sql) restricts
@@ -59,9 +67,6 @@ create trigger protect_is_admin_column
 -- indexed lookup, not a per-row function call, and not reachable directly
 -- by anon/authenticated.
 -- ----------------------------------------------------------------------------
-create schema if not exists private;
-grant usage on schema private to authenticated;
-
 create or replace function private.is_admin()
 returns boolean
 language sql
