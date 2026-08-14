@@ -1,3 +1,8 @@
+
+tagbuflmdsdscqiszq@kjkpc.net
+zsemradfjerfwrvfrc@kjkpc.net
+Abc@@123
+
 # Personal Investment Operating System
 
 A multi-user investment/deal-tracking app (P2P loans, lending, fixed income, deposits, bonds,
